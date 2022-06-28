@@ -18,3 +18,9 @@ jobs:
       run: docker build -t sim/react-test -f ./client/Dockerfile.dev ./client
     - name: Run frontend tests
       run: docker run -e CI=true sim/react-test npm test
+    - name: Run frontend tests
+      run: |
+        docker build -t sim/multi-client ./client
+        docker build -t sim/multi-nginx ./nginx
+        docker build -t sim/multi-server ./server
+        docker build -t sim/multi-worker ./worker
