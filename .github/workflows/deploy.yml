@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run tests
+    - run: docker build -t sim/react-test -f ./client/Dockerfile.dev .
+    - run: docker run -e CI=true sim/react-test npm test -- --coverage
+    
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker images
+    - run: docker build -t sim/multi-client -f ./client
+    - run: docker build -t sim/multi-nginx -f ./nginx
+    - run: docker build -t sim/multi-server -f ./server
+    - run: docker build -t sim/multi-worker -f ./worker
