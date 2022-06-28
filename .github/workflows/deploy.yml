@@ -25,7 +25,7 @@ jobs:
         docker build -t sim/multi-server ./server
         docker build -t sim/multi-worker ./worker
     - name: Login docker CLI
-      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+      run: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
     - name: Push images to docker hub
       run: |
         docker push sim/multi-client
