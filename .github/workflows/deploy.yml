@@ -18,9 +18,17 @@ jobs:
       run: docker build -t sim/react-test -f ./client/Dockerfile.dev ./client
     - name: Run frontend tests
       run: docker run -e CI=true sim/react-test npm test
-    - name: Run frontend tests
+    - name: Build production images
       run: |
         docker build -t sim/multi-client ./client
         docker build -t sim/multi-nginx ./nginx
         docker build -t sim/multi-server ./server
         docker build -t sim/multi-worker ./worker
+    - name: Login docker CLI
+      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - name: Push images to docker hub
+      run: |
+        docker push sim/multi-client
+        docker push sim/multi-nginx
+        docker push sim/multi-server
+        docker push sim/multi-worker
