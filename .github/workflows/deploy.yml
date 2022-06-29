@@ -11,6 +11,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
     - uses: actions/checkout@v3
@@ -25,6 +26,9 @@ jobs:
         docker build -t sim/multi-server ./server
         docker build -t sim/multi-worker ./worker
     - name: Login docker CLI
+      env:
+        DOCKER_ID: ${{ secrets.DOCKER_ID }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
     - name: Push images to docker hub
       run: |
