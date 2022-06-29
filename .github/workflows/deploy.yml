@@ -16,15 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t sim/react-test -f ./client/Dockerfile.dev ./client
+      run: docker build -t ozcnsimge/react-test -f ./client/Dockerfile.dev ./client
     - name: Run frontend tests
-      run: docker run -e CI=true sim/react-test npm test
+      run: docker run -e CI=true ozcnsimge/react-test npm test
     - name: Build production images
       run: |
-        docker build -t sim/multi-client ./client
-        docker build -t sim/multi-nginx ./nginx
-        docker build -t sim/multi-server ./server
-        docker build -t sim/multi-worker ./worker
+        docker build -t ozcnsimge/multi-client ./client
+        docker build -t ozcnsimge/multi-nginx ./nginx
+        docker build -t ozcnsimge/multi-server ./server
+        docker build -t ozcnsimge/multi-worker ./worker
     - name: Login docker CLI
       env:
         DOCKER_ID: ${{ secrets.DOCKER_ID }}
@@ -32,7 +32,7 @@ jobs:
       run: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
     - name: Push images to docker hub
       run: |
-        docker push sim/multi-client
-        docker push sim/multi-nginx
-        docker push sim/multi-server
-        docker push sim/multi-worker
+        docker push ozcnsimge/multi-client
+        docker push ozcnsimge/multi-nginx
+        docker push ozcnsimge/multi-server
+        docker push ozcnsimge/multi-worker
